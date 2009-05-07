@@ -1,0 +1,32 @@
+#     This file is part of Gedashield.
+#
+#     Gedashield is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     Gedashield is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with Gedashield.  If not, see <http://www.gnu.org/licenses/>.
+
+#     Copyright 2009 Tom Bennellick gedashield (at) bennellick.com
+
+
+
+This is a (currently) very crude set of tools to make the use of geda a little less painful.
+
+Currently it consists of two tools:
+pcbfoot:
+	A set of python scripts for generating pcb footprints, currently supporting dil and square smd eg QFN and SOIC - basically anything rectangular with pins along 2 or 4 sides.
+
+ods2trag:
+	whilst tragesym is a useful tool, it accepts tab separated .csv files. extracting these from .ods file is a pain where there are lots of devices. ods2trag converts openoffice .ods files to a set of .csv files, one for each table in the .ods file. The idea being that multi-part components can be split into a series of tabs
+
+
+Contact:
+gedashield (at) bennellick DOT com
+www.bennellick.com/gedashield

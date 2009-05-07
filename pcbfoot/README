@@ -1,0 +1,186 @@
+#     This file is part of Gedashield.
+#
+#     Gedashield is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     Gedashield is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with Gedashield.  If not, see <http://www.gnu.org/licenses/>.
+
+#     Copyright 2009 Tom Bennellick gedashield (at) bennellick.com
+
+
+PCBFOOT: Some tools to make geda footprint generation a bit quicker.
+
+
+A quick tour:
+  padgen.py contains the core classes describing the possible elements
+  of a PCB footprint. The rough idea being that some higher stage
+  instanciates a footprint then adds some relevant features.
+
+  polypin.py: Pcb only natively supports cirular pins, this can be
+  problematic in some cases as it does not give much copper area in
+  some the case of closely packed pins. The extpin() function returns
+  a pin objet that is formed of a via (hole) and two smd pads, one on
+  each side. 
+
+  smd-ic.py creates a footprint from paramaters specifying either a
+  four or two sided part eg TQFP QFN SOIC. xn or yn =0 for two
+  sided. Simple rectangular silkscreen outline and pin 1 spot placed
+  also  
+  
+  dil_ic.py places two rows of extpins as specified by its arguments.
+
+Usage:
+
+./smd-ic.py name xs ys xn yn ph pw pp xd yd dim out
+
+  
+  Where:
+  name = package or footprint name
+  xs = distance between rows of pin centers in x
+  ys = distance between rows of pin centers in y
+  xn = number of pins up sides
+  yn = number of pins allong top and bottom 
+  ph = pad height
+  pw = pad width
+  pp = pad pitch
+  xd = package width
+  yd = package height
+  dim = {mm,mil,cmil}
+  out = output file
+
+./dil_ic.py name xs pp pc dr xd yd dim out
+
+  Where:
+  name = package or footprint name
+  xs = distance between rows of pin centers in x
+  pp = pin pitch
+  pc = total pin count
+  dr = drill size
+  xd = package width
+  yd = package height
+  dim = {mm,mil,cmil}
+  out = output file
+
+
+
+
+
+Usage examples:
+
+      ./smd-ic.py xc3s50-5tqg144c 20.8 20.8 36 36 1 0.25 0.5 20 20 mm xc3s50-5tqg144c.fp
+
+      produces an TQFP footprint with dims:
+
+
+      
+            |--| = pp
+            
+            |  |  |  ... |  |  |      -
+          -----------/ /----------     |
+         -| O <--pin 1            |-   |
+         -|                       |-   |
+         -|                       |-   |
+                                       |
+         ....                   .....  | ys = distance between center 
+                                       |      of pins along sides
+         -|                       |-   |
+         -|                       |-   |
+         -|                       |-   |
+         -|                       |-   |
+          -----------/ /----------     |
+            |  |  |  ... |  |  |      -
+      
+         |-------------------------|
+                 xs = distance between center of pins along sides
+          |-----------------------|
+                 xd = width of package for silkscreen dims
+                 (yd as xd but in height)
+
+	where its pins have a footprint:
+	(an example of one along the top or bottom)
+
+
+	-------------  -
+        |            |  |
+        |            |  |
+        |            |  |
+        |            |  |
+        |            |  | ph
+        |            |  |
+        |            |  |
+        |            |  |
+        |            |  |
+        |            |  |
+	-------------  -
+
+        |____________|
+             pw
+
+	 All dimensions must be supplied in the same unit, shoices are 
+	 french (mm) or american (mil) and different american (cmil)
+
+      
+
+./dil_ic.py 74hc04 400 100 14 20 450 900 mil out.fp
+          xd
+        |----|
+          xs
+      |-------|
+        _____    _
+  pp- O|o    |O   |  
+    - O|     |O   |
+      O|     |O   |
+      O|     |O   | yd
+      O|     |O   |
+      O|     |O   |
+      O|     |O   |
+        -----    -
+
+
+
+
+Other random notes:	
+  It is possible to specify random outlines by omitting an outline (xd=yd=0) and
+  adding your own to the footprint object after it is returned.
+
+eg:
+# this produces and XBEE footprint
+#!/usr/bin/env python
+import sys
+sys.path.append('/home/tom/project/pcbfoot/')  # path of pcbfoot tools
+import dil_ic
+import padgen
+from padgen import mm # could be mil/cmil if needs must
+
+#make basic pinlayout with no silkscreen
+pins = dil_ic.dilic('xbee', mm(22), mm(2), 20, mm(0.8), 0, 0) # like command line args
+
+#xbee details
+#long faces
+base = 24.52 
+side = 22
+#square sides of corner triangles
+corner_base = 7.59
+corner_height = 6.53
+
+a= base/2
+b= side/2
+
+#define the outline as a list of points
+poly =[[-a,-b],[-a,b],[a,b],[a,-b],[a-corner_base,-b-corner_height],[-a+corner_base,-b-corner_height]]
+
+#join up the dots
+for i in range(0,len(poly)):
+    pins.add(padgen.line(mm(poly[i][0]),mm(poly[i][1]),mm(poly[i-1][0]),mm(poly[i-1][1]),1000))
+ 
+#write description string to file
+f = open(sys.argv[1],'w')
+f.write(pins.generate())

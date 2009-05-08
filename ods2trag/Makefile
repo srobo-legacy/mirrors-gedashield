@@ -23,12 +23,13 @@ ODSTOOL= ./ods2trag.py
 all: footprint symbol
 
 footprint:
-	$(SMD) $(NAME) 21.4 13.4 38 26 0.7 0.3 0.5 22 14 mm $(NAME).fp
+	$(SMD) $(NAME) 13.4 21.4 38 26 0.7 0.3 0.5 14 22 mm $(NAME).fp
 
 symbol:
 	$(ODSTOOL) $(NAME).ods $(NAME).src
 	for i in $$(ls *.src); do  tragesym $$i $${i%.src}.sym ;done
- 
+	-rm -f $(NAME)*.src
 clean:
-	#beware of other files in the same dir!
-	-rm -f *.sym *.src *.fp
+	-rm -f $(NAME)*.sym
+	-rm -f $(NAME)*.src
+	-rm -f $(NAME).fp

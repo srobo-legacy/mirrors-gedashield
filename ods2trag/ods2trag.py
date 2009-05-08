@@ -59,6 +59,7 @@ class ContentGenerator(handler.ContentHandler):
 
 
             outf = open(name,'w')
+            outcontent=''
             for r in t:
                 wstr = ''
                 for c in r:

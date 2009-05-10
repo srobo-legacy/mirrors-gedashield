@@ -23,11 +23,11 @@
 
 
 #all units are 1/100 mil - this is imperial (10^-5 Inch)
-mils=39.3700787#mils in 1mm - source google
+MILS=39.3700787#mils in 1mm - source google
 
 def mm(mmin):
     '''hundreds of mills equivalent to input mm'''
-    centimils=mils*100 # in mm not the other way round!
+    centimils=MILS*100 # in mm not the other way round!
     return mmin * centimils
 
 def mil(milin):
@@ -190,7 +190,7 @@ class pad():
             raise AttributeError, 'It is assumed that pads are taller than wide, use rotate for other cases'
         
         self.thick = wid
-        self.linelen = len-wid
+        self.linelen = (len-wid)/2 # its div 2 because the center point is in the middle
         if ( rot == 0) or (rot == 180):
             self.x1 = cen_x
             self.y1 = cen_y - self.linelen

@@ -28,7 +28,7 @@ def strclean(stin,row):
     stout =''
     for c in stin:
         if ord(c) > 128:
-            print "Error: Input file has character not in ascii charset, on row",row
+            print "Error: Input file has character not in ascii charset, on row",row,"skipping this character"
             #sys.exit()
         else:
             stout +=c

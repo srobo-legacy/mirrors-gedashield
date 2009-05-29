@@ -18,7 +18,7 @@
 
 
 
-import sys, string
+import sys, string, os
 import zipfile
 from xml.sax import saxutils, handler, make_parser, InputSource, parseString
 
@@ -131,7 +131,7 @@ def run(inods,outcsv):
 
 if __name__ == "__main__":
     if not len(sys.argv) == 3:
-        print 'Usage: '+sys.argv[0] + """ <input.ods> <output csv>"""
+        print 'Usage: '+ os.path.basename(sys.argv[0]) + """ <input.ods> <output csv>"""
         sys.exit()
 
     run(sys.argv[1],sys.argv[2])

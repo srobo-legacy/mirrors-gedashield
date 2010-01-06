@@ -84,7 +84,7 @@ class pin():
         self.rX=0
         self.rY=0 
         self.Thickness=0 
-        self.Clearance=0 
+        self.Clearance=mm(0.35)
         self.Mask=0 
         self.Drill=0 
         self.Name=''
@@ -167,7 +167,7 @@ class pad():
         self.y1=0
         self.y2=0
         self.mask =0
-        self.clearance = 0
+        self.clearance = mm(0.35)
 
         #temp vars
         self.linelen=0

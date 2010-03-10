@@ -26,6 +26,16 @@ pcbfoot:
 ods2trag:
 	whilst tragesym is a useful tool, it accepts tab separated .csv files. extracting these from .ods file is a pain where there are lots of devices. ods2trag converts openoffice .ods files to a set of .csv files, one for each table in the .ods file. The idea being that multi-part components can be split into a series of tabs
 
+*** INSTALLATION ***
+You can get python distutils to package pcbfoot into an RPM using the following command:
+
+./setup bdist_rpm
+
+The RPM will appear in the 'dist' directory.
+
+If you're not using an RPM based system, you can get it to install straight onto your machine without any sort of package management (not advised):
+
+./setup install
 
 Contact:
 gedashield (at) bennellick DOT com

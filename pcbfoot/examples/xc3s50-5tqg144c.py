@@ -17,7 +17,7 @@
 #     Copyright 2009 Tom Bennellick gedashield (at) bennellick.com
 
 
-from  padgen import *
+from pcbfoot.padgen import *
 
 
 if __name__ == "__main__":

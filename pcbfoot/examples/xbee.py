@@ -19,10 +19,8 @@
 
 
 import sys
-sys.path.append('/home/tom/project/pcbfoot/')  # path of pcbfoot tools
-import dil_ic
-import padgen
-from padgen import mm # could be mil/cmil if needs must
+from pcbfoot import dil_ic, padgen
+from pcbfoot.padgen import mm # could be mil/cmil if needs must
 
 #make basic pinlayout with no silkscreen
 pins = dil_ic.dilic('xbee', mm(22), mm(2), 20, mm(0.8), 0, 0) # like command line args

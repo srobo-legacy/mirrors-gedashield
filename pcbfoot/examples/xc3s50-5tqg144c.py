@@ -21,7 +21,7 @@ from pcbfoot.padgen import *
 
 
 if __name__ == "__main__":
-    foot = footprint()
+    foot = footprint("")
     x = -10.4
     y = -8.75 
     for i in range(0,35):

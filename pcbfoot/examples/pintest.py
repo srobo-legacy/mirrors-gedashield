@@ -18,7 +18,7 @@
 
 
 
-from  padgen import *
+from pcbfoot.padgen import *
 
 def dimm(val):
     if dim=='mm':
